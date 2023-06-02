@@ -1,4 +1,4 @@
-# Traveling Salesperson Problem
+# Traveling Salesman Problem
 
 > This is a project created for the final project of the Decision Science subject of the Master's Degree in Computer science of the [University of Cagliari](https://www.unica.it/unica/en/homepage.page).
 
