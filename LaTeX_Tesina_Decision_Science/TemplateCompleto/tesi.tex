@@ -1,0 +1,91 @@
+\documentclass[12pt,a4paper,twoside,openright,italian]{book} % PER ITALIANO
+%\documentclass[12pt,a4paper,twoside,openright,english]{book} % PER INGLESE
+\pagestyle{plain}
+
+\usepackage[italian]{babel} %PER ITALIANO
+%\usepackage[english]{babel} %PER INGLESE
+\usepackage[T1]{fontenc}
+%\usepackage[latin9]{inputenc} % PER WINDOWS
+\usepackage[utf8]{inputenc} % PER LINUX
+
+\usepackage{pgfplots}
+
+
+\usepackage{url}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{setspace}
+\usepackage{amssymb}
+\usepackage{hyperref}
+\usepackage{color}
+\usepackage{graphicx}
+\usepackage{multicol}
+\usepackage {fancyhdr}
+\usepackage{geometry}
+\usepackage{natbib}
+\usepackage{lipsum}
+\usepackage[labelfont={normalfont, bf}, font=it]{caption}
+\usepackage{blindtext}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{listings}
+\usepackage{color}
+\renewcommand{\ttdefault}{cmtt}
+
+\usepackage[lighttt]{lmodern}
+
+\usepackage{bchart}
+
+\usepackage{wrapfig}
+
+\usepackage[lf]{Baskervaldx} % lining figures
+\usepackage[bigdelims,vvarbb]{newtxmath} % math italic letters from Nimbus Roman
+\usepackage[cal=boondoxo]{mathalfa} % mathcal from STIX, unslanted a bit
+\renewcommand*\oldstylenums[1]{\textosf{#1}}
+
+\linespread{1.1} % Line spacing
+
+\newcommand{\giammi} [1]{{\textcolor{blue}{Prof: #1}}}
+\newcommand{\student} [1]{{\textcolor{red}{Student: #1}}}
+
+%\geometry{a4paper, tmargin=3cm, bmargin=3.5cm, lmargin=3cm, rmargin=3cm} %margini
+%\geometry{a4paper, bmargin=4cm} %margini
+\geometry{a4paper, bmargin=4cm, lmargin=3.1cm, rmargin=3.2cm} %margini
+
+\newcommand{\noun}[1]{\textsc{#1}}
+\newcommand{\whitepage}{\newpage\thispagestyle{empty}\mbox{}}
+
+\graphicspath{{images/}} % Specifies the directory where pictures are stored
+
+\begin{document}
+
+\input{frontpage}
+
+\whitepage
+
+\frontmatter
+	\tableofcontents
+
+\mainmatter
+
+\input{chapters/1introduzione}
+
+\input{chapters/2fondamenti_teorici}
+
+\input{chapters/3formulazioni}
+
+\input{chapters/4branch_and_bound}
+
+\input{chapters/conclusioni}
+
+\bibliographystyle{plain}
+\bibliography{biblio}
+\addcontentsline{toc}{chapter}{References}
+
+%\listoffigures
+
+%\listoftables	
+
+% \whitepage
+
+\end{document}
