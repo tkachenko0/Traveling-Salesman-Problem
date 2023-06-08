@@ -4,11 +4,11 @@ import utils
 from enum import Enum
 
 
-def generate_basic_model(costs_matrix):
+def create_assignment_problem_model(costs_matrix):
     num_vertices = len(costs_matrix)
 
     # Create a binary optimization model
-    model = Model(name='TSP_Basic_Model')
+    model = Model(name='TSP_AP')
 
     # Create binary variables for edges
     x = {(i, j): model.binary_var(name=f'x_{i}_{j}') for i in range(num_vertices) for j in range(num_vertices)}
@@ -26,9 +26,30 @@ def generate_basic_model(costs_matrix):
     return model, x
 
 
+def create_MTZ_model(costs_matrix):
+    num_vertices = len(costs_matrix)
+
+    model, x = create_assignment_problem_model(costs_matrix)
+
+    # Create variables for ordering of vertices
+    u = [model.continuous_var(name=f'u_{i}') for i in range(num_vertices)]
+    for i in range(1, num_vertices):
+        model.add_constraint(u[i] >= 0, ctname=f'lower_bound_{i}')
+        model.add_constraint(u[i] <= num_vertices - 1, ctname=f'upper_bound_{i}')
+
+    # Ensure that there are no subtours
+    for i in range(1, num_vertices):
+        for j in range(1, num_vertices):
+            if i != j:
+                model.add_constraint(u[i] - u[j] + (num_vertices - 1) * x[i, j] <= num_vertices - 2,
+                                     ctname=f'MTZ_{i}_{j}')
+
+    return model
+
+
 def create_cut_set_model(costs_matrix, connected):
     num_vertices = len(costs_matrix)
-    model, x = generate_basic_model(costs_matrix)
+    model, x = create_assignment_problem_model(costs_matrix)
 
     if connected:
         # Cut set constrains
@@ -42,7 +63,7 @@ def create_cut_set_model(costs_matrix, connected):
 
 def create_subtour_elimination_model(costs_matrix, connected):
     num_vertices = len(costs_matrix)
-    model, x = generate_basic_model(costs_matrix)
+    model, x = create_assignment_problem_model(costs_matrix)
 
     if connected:
         # Cut set constrains
@@ -65,7 +86,9 @@ def branch_and_bound(costs_matrix, bb_type):
     best_solution = None
     best_objective_value = float('inf')
 
-    stack = [create_cut_set_model(costs_matrix, connected=False)]
+    initial_model, x = create_assignment_problem_model(costs_matrix)
+
+    stack = [initial_model]
 
     nodes_added = 0
 
@@ -81,7 +104,7 @@ def branch_and_bound(costs_matrix, bb_type):
         if objective_value >= best_objective_value:
             continue  # Solution is worse than the best found so far, backtrack
 
-        if utils.count_subtours(solution) == 1:
+        if utils.count_subtours(solution, num_vertices) == 1:
             # Found a feasible solution with lower objective value
             best_solution = solution
             best_objective_value = objective_value
@@ -103,6 +126,6 @@ def branch_and_bound(costs_matrix, bb_type):
     if best_solution is None:
         raise Exception("Infeasible")
 
-    print("Nodes added", nodes_added)
+    print("\tNodes added", nodes_added)
 
     return best_solution

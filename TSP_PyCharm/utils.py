@@ -36,8 +36,7 @@ def get_external_subset_acrs(subset, vertices_list):
     return arc_list
 
 
-def extract_subtours(solution):
-    num_vertices = solution.size
+def extract_subtours(solution, num_vertices):
     visited = [False] * num_vertices
     tours = []
 
@@ -61,7 +60,7 @@ def extract_subtours(solution):
     return tours
 
 
-def count_subtours(solution):
+def count_subtours(solution, num_vertices):
     num_vertices = solution.size
     visited = [False] * num_vertices
     count = 0
@@ -127,19 +126,17 @@ def plot_subtours(num_vertices, tours, method_name):
     plt.show()
 
 
-def print_results(solution, method_name):
-    num_vertices = solution.size
-
+def print_tours(solution, num_vertices, method_name):
     if solution is None:
         raise Exception("Infeasible")
-    tours = extract_subtours(solution)
+
+    tours = extract_subtours(solution, num_vertices)
     plot_subtours(num_vertices, tours, method_name)
-    print(f"\tNumber of different tours: {len(tours)}")
+    print(f"\tNumber of tours: {len(tours)}")
 
     print("\tTSP tours:")
     for tour in tours:
         print("\t", tour, sep="")
-    print("\tTotal Cost:   ", solution.get_objective_value())
 
 
 def generate_random_cost_matrix(n_vertices):

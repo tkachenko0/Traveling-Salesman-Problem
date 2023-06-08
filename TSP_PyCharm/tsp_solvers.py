@@ -4,6 +4,7 @@ from tsp_methods import *
 
 def solve_with_cut_set(costs_matrix, connected=True, visualize=True, print_time=True):
     print("Cut Set")
+    num_vertices = len(costs_matrix)
 
     model = create_cut_set_model(costs_matrix, connected)
 
@@ -13,11 +14,14 @@ def solve_with_cut_set(costs_matrix, connected=True, visualize=True, print_time=
         print("\tTime:", time.time() - start_time)
 
     if visualize:
-        utils.print_results(solution, method_name="Cut Set")
+        utils.print_tours(solution, num_vertices, method_name="Cut Set")
+
+    print("\tTotal Cost:   ", solution.get_objective_value())
 
 
 def solve_with_subtour_elimination(costs_matrix, connected=True, visualize=True, print_time=True):
     print("Subtour Elimination")
+    num_vertices = len(costs_matrix)
 
     model = create_subtour_elimination_model(costs_matrix, connected)
 
@@ -27,11 +31,14 @@ def solve_with_subtour_elimination(costs_matrix, connected=True, visualize=True,
         print("\tTime:", time.time() - start_time)
 
     if visualize:
-        utils.print_results(solution, method_name="Subtour Elimination")
+        utils.print_tours(solution, num_vertices, method_name="Subtour Elimination")
+
+    print("\tTotal Cost:   ", solution.get_objective_value())
 
 
 def solve_with_branch_and_bound(costs_matrix, bb_type, visualize=True, print_time=True):
     print("Branch and Bound")
+    num_vertices = len(costs_matrix)
 
     start_time = time.time()
     solution = branch_and_bound(costs_matrix, bb_type)
@@ -39,7 +46,26 @@ def solve_with_branch_and_bound(costs_matrix, bb_type, visualize=True, print_tim
         print("\tTime:", time.time() - start_time)
 
     if visualize:
-        utils.print_results(solution, method_name="Branch and Bound")
+        utils.print_tours(solution, num_vertices, method_name="Branch and Bound")
+
+    print("\tTotal Cost:   ", solution.get_objective_value())
+
+
+def solve_with_MTZ(costs_matrix, visualize=True, print_time=True):
+    print("Miller–Tucker–Zemlin")
+    num_vertices = len(costs_matrix)
+
+    model = create_MTZ_model(costs_matrix)
+
+    start_time = time.time()
+    solution = model.solve()
+    if print_time:
+        print("\tTime:", time.time() - start_time)
+
+    if visualize:
+        utils.print_tours(solution, num_vertices, method_name="Miller–Tucker–Zemlin")
+
+    print("\tTotal Cost:   ", solution.get_objective_value())
 
 
 def solve_with_brute_force(cost_matrix, print_time=True):
