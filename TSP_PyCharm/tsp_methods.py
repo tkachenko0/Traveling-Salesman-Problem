@@ -116,9 +116,7 @@ def branch_and_bound_total(costs_matrix):
     if best_solution is None:
         raise Exception("Infeasible")
 
-    print("\tNodes added:", nodes_added)
-
-    return best_solution
+    return best_solution, nodes_added
 
 
 def branch_and_bound_binary(costs_matrix):
@@ -177,6 +175,4 @@ def branch_and_bound_binary(costs_matrix):
     if best_solution is None:
         raise Exception("Infeasible")
 
-    print("\tNodes added:", nodes_added)
-
-    return best_solution
+    return best_solution, nodes_added

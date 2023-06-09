@@ -137,30 +137,3 @@ def print_tours(solution, num_vertices, method_name):
     print("\tTSP tours:")
     for tour in tours:
         print("\t", tour, sep="")
-
-
-def generate_random_cost_matrix(n_vertices):
-    costs_matrix = []
-    for i in range(n_vertices):
-        row = [0] * n_vertices
-        for j in range(n_vertices):
-            if i != j:
-                row[j] = random.randint(1, 100)
-        costs_matrix.append(row)
-    return costs_matrix
-
-
-planet_names = ['Terra', 'Mercurio', 'Venere', 'Marte', 'Giove', 'Saturno', 'Urano', 'Nettuno']
-
-def generate_space_matrix():
-    costs_matrix = [
-        [0, 72, 39, 36, 71, 12, 15, 8],
-        [96, 0, 23, 85, 12, 100, 35, 25],
-        [60, 6, 0, 49, 70, 94, 16, 26],
-        [20, 97, 83, 0, 84, 66, 46, 33],
-        [69, 7, 53, 41, 0, 52, 20, 24],
-        [97, 55, 79, 31, 73, 0, 85, 60],
-        [36, 64, 8, 4, 20, 79, 0, 74],
-        [90, 68, 59, 28, 76, 20, 4, 0]
-    ]
-    return costs_matrix

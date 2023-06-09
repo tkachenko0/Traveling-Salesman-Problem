@@ -41,38 +41,45 @@ class BranchAndBoundType(Enum):
     TOTAL = 1
 
 
-def solve_with_branch_and_bound(costs_matrix, bb_type, visualize=True, print_time=True):
+def solve_with_branch_and_bound(costs_matrix, bb_type, visualize=False, print_time=False):
     print("Branch and Bound Binary" if bb_type == BranchAndBoundType.BINARY else "Branch and Bound Total")
     num_vertices = len(costs_matrix)
 
     start_time = time.time()
 
     if bb_type == BranchAndBoundType.BINARY:
-        solution = branch_and_bound_binary(costs_matrix)
+        solution, num_added_nodes = branch_and_bound_binary(costs_matrix)
     else:
-        solution = branch_and_bound_total(costs_matrix)
+        solution, num_added_nodes = branch_and_bound_total(costs_matrix)
 
+    t = time.time() - start_time
     if print_time:
-        print("\tTime:", time.time() - start_time)
+        print("\tTime:", t)
 
     if visualize:
         utils.print_tours(solution, num_vertices, method_name="Branch and Bound")
 
-    print("\tTotal Cost:   ", solution.get_objective_value())
+    # print("\tTotal Cost:   ", solution.get_objective_value())
+    # print("\tNodes added:", num_added_nodes)
+
+    return round(t, 2), num_added_nodes, int(solution.get_objective_value())
 
 
 def solve_with_MTZ(costs_matrix, visualize=True, print_time=True):
-    print("Miller–Tucker–Zemlin")
+    # print("Miller–Tucker–Zemlin")
     num_vertices = len(costs_matrix)
 
     model = create_MTZ_model(costs_matrix)
 
     start_time = time.time()
     solution = model.solve()
+    t = time.time() - start_time
     if print_time:
-        print("\tTime:", time.time() - start_time)
+        print("\tTime:", t)
 
     if visualize:
         utils.print_tours(solution, num_vertices, method_name="Miller–Tucker–Zemlin")
 
-    print("\tTotal Cost:   ", solution.get_objective_value())
+    # print("\tTotal Cost:   ", solution.get_objective_value())
+
+    return round(t, 2)
