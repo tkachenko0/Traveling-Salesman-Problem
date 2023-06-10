@@ -4,6 +4,7 @@ import utils
 from enum import Enum
 import heapq
 
+
 def create_assignment_problem_model(costs_matrix):
     num_vertices = len(costs_matrix)
 
@@ -30,6 +31,41 @@ def create_MTZ_model(costs_matrix):
     num_vertices = len(costs_matrix)
 
     model, x = create_assignment_problem_model(costs_matrix)
+
+    # Create variables for ordering of vertices
+    u = [model.continuous_var(name=f'u_{i}') for i in range(num_vertices)]
+    for i in range(1, num_vertices):
+        model.add_constraint(u[i] >= 0, ctname=f'lower_bound_{i}')
+        model.add_constraint(u[i] <= num_vertices - 1, ctname=f'upper_bound_{i}')
+
+    # Ensure that there are no subtours
+    for i in range(1, num_vertices):
+        for j in range(1, num_vertices):
+            if i != j:
+                model.add_constraint(u[i] - u[j] + (num_vertices - 1) * x[i, j] <= num_vertices - 2,
+                                     ctname=f'MTZ_{i}_{j}')
+
+    return model
+
+
+def create_relaxated_MTZ_model(costs_matrix):
+    num_vertices = len(costs_matrix)
+
+    model = Model(name='TSP_AP')
+
+    # Create binary variables for edges
+    x = {(i, j): model.continuous_var(name=f'x_{i}_{j}', lb=0, ub=1) for i in range(num_vertices) for j in
+         range(num_vertices)}
+
+    for i in range(num_vertices):
+        # Ensure that every vertex has exactly one outgoing edge
+        model.add_constraint(model.sum(x[i, j] for j in range(num_vertices) if j != i) == 1, ctname='out_{0}'.format(i))
+        # Ensure that every vertex has exactly one incoming edge
+        model.add_constraint(model.sum(x[j, i] for j in range(num_vertices) if j != i) == 1, ctname='in_{0}'.format(i))
+
+    # Objective function
+    model.minimize(
+        model.sum(costs_matrix[i][j] * x[(i, j)] for i in range(num_vertices) for j in range(num_vertices) if j != i))
 
     # Create variables for ordering of vertices
     u = [model.continuous_var(name=f'u_{i}') for i in range(num_vertices)]

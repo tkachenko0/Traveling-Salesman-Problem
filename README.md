@@ -21,8 +21,6 @@ In this essay, we playfully apply TSP to the case where Elon Musk, the visionary
 
 ## Resources
 
-- [Python Notebook](TSP_Notebook/tsp_notebook.ipynb)
-
 - [PyCharm Project](TSP_PyCharm)
 
-- [PDF](Tesina_Decision_Science.pdf)
+- [PDF](TSP_come_Guida_tra_i_Pianeti.pdf)
