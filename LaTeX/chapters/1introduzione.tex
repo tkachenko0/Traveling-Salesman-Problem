@@ -1,0 +1,12 @@
+\chapter{Introduzione}
+
+Il \textit{Problema del Commesso Viaggiatore} ( \textit{Travelling Salesman Problem}, TSP) è uno dei classici problemi di ottimizzazione che richiede, nella sua versione originale, di determinare il percorso con costo minimo che un venditore deve seguire per visitare un insieme di città esattamente una volta, tornando infine alla città di partenza. Il TSP ha applicazioni in vari settori, come la logistica, la pianificazione dei tragitti e la progettazione di circuiti stampati.
+
+Nell'ambito di questa tesina, applichiamo TSP in maniera giocosa al caso in cui Elon Musk, l'imprenditore visionario di SpaceX, desidera visitare tutti i pianeti del nostro sistema solare. Ogni percorso tra i pianeti ha un costo associato che può differire anche scambiando il punto di partenza e il punto di arrivo tra un nodo e l'altro. L’obiettivo è quello di trovare il percorso complessivo che consenta a Elon Musk di visitare tutti i pianeti riducendo il costo il più possibile.
+
+Questa tesina si propone di esaminare il problema del TSP nel contesto dell'ottimizzazione lineare e di presentare due formulazioni del problema che comportano entrambe un numero esponenziale di vincoli. Inoltre, verrà introdotto un algoritmo di branching che permette di ridurre il numero dei vincoli, rendendo più gestibile la risoluzione del problema. Applicheremo queste formulazioni e l'algoritmo di branching al caso di studio di Elon Musk per determinare il percorso con costo minimo per la sua avventura spaziale nel sistema solare.
+
+
+\section{Sommario}
+
+In questa tesina partiremo introducendo le nozioni base in \ref{fondamenti_teorici} per poi passare a descrivere le diverse formulazioni \ref{formulazioni} del problema. Queste ci porteranno ad affrontare alcune sfide computazionali che cerchiamo di risolvere in \ref{branch_and_bound} con due algoritmi: uno descritto nel \cite{bertsimas} e l'altro che sfrutta le idee del precedente, ma con una modifica.
