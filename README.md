@@ -11,11 +11,11 @@ The TSP is classified as an NP-hard problem, which means that it is computationa
 
 In this essay, we playfully apply TSP to the case where Elon Musk, the visionary entrepreneur of SpaceX, wishes to visit all the planets of our solar system. Each path between planets has an associated cost. The goal is to find the overall route that allows Elon Musk to visit all planets while reducing the cost as much as possible.
 
-![Planets](LaTeX_Tesina_Decision_Science/TemplateCompleto/images/es_space_sol_connessa_without_back.png)
+![Planets](LaTeX/TemplateCompleto/images/es_space_sol_connessa_without_back.png)
 
 
 <div wigth="100%">
-<img src="LaTeX_Tesina_Decision_Science/TemplateCompleto/images/elon-ruotato.png" alt="Elon Musk" width="333px" heigth="187px" align="right" title="Cloud title" >
+<img src="LaTeX/TemplateCompleto/images/elon-ruotato.png" alt="Elon Musk" width="333px" heigth="187px" align="right" title="Cloud title" >
 <div>
 
 
