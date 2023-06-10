@@ -3,7 +3,7 @@ from tsp_methods import *
 
 
 def solve_with_cut_set(costs_matrix, connected=True, visualize=True, print_time=True):
-    # print("Cut Set")
+    print("Cut Set")
     num_vertices = len(costs_matrix)
 
     model = create_cut_set_model(costs_matrix, connected)
@@ -59,17 +59,17 @@ def solve_with_branch_and_bound(costs_matrix, bb_type, visualize=False, print_ti
     if visualize:
         utils.print_tours(solution, num_vertices, method_name="Branch and Bound")
 
-    # print("\tTotal Cost:   ", solution.get_objective_value())
-    # print("\tNodes added:", num_added_nodes)
+    print("\tTotal Cost:   ", solution.get_objective_value())
+    print("\tNodes added:", num_added_nodes)
 
     return round(t, 2), num_added_nodes, int(solution.get_objective_value())
 
 
-def solve_with_MTZ(costs_matrix, visualize=True, print_time=True, relaxated=True):
-    # print("Miller–Tucker–Zemlin")
+def solve_with_MTZ(costs_matrix, visualize=True, print_time=True):
+    print("Miller–Tucker–Zemlin")
     num_vertices = len(costs_matrix)
 
-    model = create_MTZ_model(costs_matrix) if not relaxated else create_relaxated_MTZ_model(costs_matrix)
+    model = create_MTZ_model(costs_matrix)
 
     start_time = time.time()
     solution = model.solve()
