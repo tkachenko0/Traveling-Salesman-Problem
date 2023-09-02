@@ -20,19 +20,23 @@ In this essay, we playfully apply TSP to the case where Elon Musk, the visionary
 
 ## Getting Started
 
+Move to the python folder
 ```bash
-cd Python
+cd python
 ```
 
+Create a virtual environment and activate it
 ```bash
 python3 -m venv venv
 source venv/bin/activate
 ```
 
+Install the requirements
 ```bash
 pip install -r requirements.txt
 ```
 
+Run the main.py file
 ```bash
 python3 main.py
 ```
