@@ -43,6 +43,6 @@ python3 main.py
 
 ## Resources
 
-- [PyCharm Project](TSP_PyCharm)
+- [Python Project](TSP_PyCharm)
 
-- [PDF](TSP_come_Guida_tra_i_Pianeti.pdf)
+- [PDF](./TSP_come_Guida_tra_i_Pianeti.pdf)
