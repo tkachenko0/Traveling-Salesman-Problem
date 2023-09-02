@@ -18,6 +18,24 @@ In this essay, we playfully apply TSP to the case where Elon Musk, the visionary
 <img src="LaTeX/TemplateCompleto/images/elon-ruotato.png" alt="Elon Musk" width="333px" heigth="187px" align="right" title="Cloud title" >
 <div>
 
+## Getting Started
+
+```bash
+cd Python
+```
+
+```bash
+python3 -m venv venv
+source venv/bin/activate
+```
+
+```bash
+pip install -r requirements.txt
+```
+
+```bash
+python3 main.py
+```
 
 ## Resources
 
