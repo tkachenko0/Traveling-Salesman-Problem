@@ -2,6 +2,37 @@ import time
 from tsp_models import *
 
 
+def solve_with_max_flow(costs_matrix, visualize=True, print_time=True):
+    print("Max Flow")
+
+    num_vertices = len(costs_matrix)
+
+    initial_model, x = create_assignment_problem_model(costs_matrix)
+
+    start_time = time.time()
+
+    solution = None
+    finished = False
+
+    while not finished:
+        solution = initial_model.solve()
+
+        if solution is None:  # Infeasible solution
+            raise Exception("Infeasible")
+
+        # check if there are subtours
+        # if so add constrains to the model respect to the minimum cut set
+        # else break the loop and return the solution
+
+    if print_time:
+        print("\tTime:", time.time() - start_time)
+
+    if visualize:
+        utils.print_tours(solution, num_vertices, method_name="Cut Set")
+
+    print("\tTotal Cost:   ", solution.get_objective_value())
+
+
 def solve_with_cut_set(costs_matrix, visualize=True, print_time=True):
     print("Cut Set")
     num_vertices = len(costs_matrix)
@@ -31,7 +62,8 @@ def solve_with_subtour_elimination(costs_matrix, visualize=True, print_time=True
         print("\tTime:", time.time() - start_time)
 
     if visualize:
-        utils.print_tours(solution, num_vertices, method_name="Subtour Elimination")
+        utils.print_tours(solution, num_vertices,
+                          method_name="Subtour Elimination")
 
     print("\tTotal Cost:   ", solution.get_objective_value())
 
@@ -42,7 +74,8 @@ class BranchAndBoundType(Enum):
 
 
 def solve_with_branch_and_bound(costs_matrix, bb_type, visualize=False, print_time=False):
-    print("Branch and Bound Binary" if bb_type == BranchAndBoundType.BINARY else "Branch and Bound Total")
+    print("Branch and Bound Binary" if bb_type ==
+          BranchAndBoundType.BINARY else "Branch and Bound Total")
     num_vertices = len(costs_matrix)
 
     start_time = time.time()
@@ -57,7 +90,8 @@ def solve_with_branch_and_bound(costs_matrix, bb_type, visualize=False, print_ti
         print("\tTime:", t)
 
     if visualize:
-        utils.print_tours(solution, num_vertices, method_name="Branch and Bound")
+        utils.print_tours(solution, num_vertices,
+                          method_name="Branch and Bound")
 
     print("\tTotal Cost:   ", solution.get_objective_value())
     print("\tNodes added:", num_added_nodes)
@@ -78,7 +112,8 @@ def solve_with_MTZ(costs_matrix, visualize=True, print_time=True):
         print("\tTime:", t)
 
     if visualize:
-        utils.print_tours(solution, num_vertices, method_name="Miller–Tucker–Zemlin")
+        utils.print_tours(solution, num_vertices,
+                          method_name="Miller–Tucker–Zemlin")
 
     print("\tTotal Cost:   ", solution.get_objective_value())
 
