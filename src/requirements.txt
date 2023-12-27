@@ -4,6 +4,7 @@ docplex==2.25.236
 fonttools==4.38.0
 kiwisolver==1.4.5
 matplotlib==3.5.3
+networkx==2.6.3
 numpy==1.21.6
 packaging==23.1
 Pillow==9.5.0

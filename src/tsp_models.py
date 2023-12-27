@@ -21,8 +21,7 @@ def create_assignment_problem_model(costs_matrix):
         model.add_constraint(model.sum(x[j, i] for j in range(num_vertices) if j != i) == 1, ctname='in_{0}'.format(i))
 
     # Objective function
-    model.minimize(
-        model.sum(costs_matrix[i][j] * x[(i, j)] for i in range(num_vertices) for j in range(num_vertices) if j != i))
+    model.minimize(model.sum(costs_matrix[i][j] * x[(i, j)] for i in range(num_vertices) for j in range(num_vertices) if j != i))
 
     return model, x
 
@@ -42,8 +41,7 @@ def create_MTZ_model(costs_matrix):
     for i in range(1, num_vertices):
         for j in range(1, num_vertices):
             if i != j:
-                model.add_constraint(u[i] - u[j] + (num_vertices - 1) * x[i, j] <= num_vertices - 2,
-                                     ctname=f'MTZ_{i}_{j}')
+                model.add_constraint(u[i] - u[j] + (num_vertices - 1) * x[i, j] <= num_vertices - 2, ctname=f'MTZ_{i}_{j}')
 
     return model
 
