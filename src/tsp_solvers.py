@@ -41,26 +41,20 @@ def solve_with_max_flow(costs_matrix, visualize=True, print_time=True):
 
     solution = model.solve()
 
-    utils.print_tours(solution, num_vertices, method_name="Max Flow")
-
     subtours_present = True
 
     while subtours_present:
         subtours_present = False
         for node in range(1, num_vertices):
             graph = create_graph(solution, num_vertices)
-            #nx.draw(graph, with_labels=True)
             max_flow = nx.maximum_flow_value(graph, 0, node)
-            print(f"max flow: to {node}: {max_flow}")
             if max_flow < 1:
                 subtours_present = True
                 _, (s_set, t_set) = nx.minimum_cut(graph, 0, node)
-                print(f"min cut: {s_set}, {t_set}")
                 arc_list = utils.get_external_subset_arcs(s_set, range(num_vertices))
                 model.add_constraint(model.sum(x[(arc['from'], arc['to'])] for arc in arc_list) >= 1)
             del graph
         solution = model.solve()
-        utils.print_tours(solution, num_vertices, method_name="Max Flow")
 
     if print_time:
         print("\tTime:", time.time() - start_time)
