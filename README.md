@@ -41,6 +41,11 @@ Run the main.py file
 python3 main.py
 ```
 
+Remember to free the virtual environment in case of dependency additions
+```bash
+pip freeze > requirements.txt
+```
+
 ## Resources
 
 - [Python Project](./Python)
