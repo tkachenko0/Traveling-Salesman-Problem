@@ -9,14 +9,15 @@ def find_min_cut(graph):
     """
     return nx.minimum_cut(graph, source=1, terminal=2)  # Esempio di calcolo minimo taglio con NetworkX
 
-def add_violated_constraints(model, min_cut):
+def add_violated_constraints(model, x, min_cut_partition):
     """
     Aggiungi i vincoli violati (archi nel min-cut) al modello PLI
     """
-    for edge in min_cut:
-        model.add_constraint(x[edge] == 1)  # Aggiungi il vincolo per l'arco nel min-cut
-
-    return model
+    (s_set, t_set) = min_cut_partition
+    # compute arc list as list of {'from': v, 'to': q} dictionaries
+    arc_list = [{'from': v, 'to': q} for v in s_set for q in t_set]
+    violated_constraints = [x[(arc['from'], arc['to'])] for arc in arc_list]
+    model.add_constraint(model.sum(violated_constraints) >= 1)
 
 def create_graph(solution, num_vertices):
     graph = nx.DiGraph()
@@ -37,23 +38,24 @@ def solve_with_max_flow(costs_matrix, visualize=True, print_time=True):
 
     model, x = create_assignment_problem_model(costs_matrix)
 
+    subtours_present = True
+
     start_time = time.time()
 
     solution = model.solve()
-
-    subtours_present = True
 
     while subtours_present:
         subtours_present = False
         for node in range(1, num_vertices):
             graph = create_graph(solution, num_vertices)
-            max_flow = nx.maximum_flow_value(graph, 0, node)
-            if max_flow < 1:
+            max_flow_value = nx.maximum_flow_value(graph, 0, node)
+            #max_flow= nx.maximum_flow(graph, 0, node) # TODO: remove
+            #print(f"Max flow: {max_flow}") # TODO: remove
+            if max_flow_value < 1:
                 subtours_present = True
-                _, (s_set, t_set) = nx.minimum_cut(graph, 0, node)
-                arc_list = utils.get_external_subset_arcs(s_set, range(num_vertices))
-                model.add_constraint(model.sum(x[(arc['from'], arc['to'])] for arc in arc_list) >= 1)
-            del graph
+                _, partition = nx.minimum_cut(graph, 0, node)
+                #print(f"Partition: {partition}")
+                add_violated_constraints(model, x, partition)
         solution = model.solve()
 
     if print_time:
