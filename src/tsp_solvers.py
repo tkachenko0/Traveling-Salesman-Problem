@@ -2,19 +2,8 @@ import time
 from tsp_models import *
 import networkx as nx
 
-def find_min_cut(graph):
-    """
-    Utilizza NetworkX o un'altra libreria per calcolare il min-cut (taglio minimo) nella rete
-    'graph' è il grafo basato sulla soluzione corrente (utilizza il solver CPLEX per ottenere gli archi selezionati)
-    """
-    return nx.minimum_cut(graph, source=1, terminal=2)  # Esempio di calcolo minimo taglio con NetworkX
-
 def add_violated_constraints(model, x, min_cut_partition):
-    """
-    Aggiungi i vincoli violati (archi nel min-cut) al modello PLI
-    """
     (s_set, t_set) = min_cut_partition
-    # compute arc list as list of {'from': v, 'to': q} dictionaries
     arc_list = [{'from': v, 'to': q} for v in s_set for q in t_set]
     violated_constraints = [x[(arc['from'], arc['to'])] for arc in arc_list]
     model.add_constraint(model.sum(violated_constraints) >= 1)
@@ -26,7 +15,6 @@ def create_graph(solution):
         from_node = int(d_name.split("_")[1])
         to_node = int(d_name.split("_")[2])
         graph.add_edge(from_node, to_node, capacity=1)
-
     return graph
 
 
