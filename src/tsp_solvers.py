@@ -19,14 +19,13 @@ def add_violated_constraints(model, x, min_cut_partition):
     violated_constraints = [x[(arc['from'], arc['to'])] for arc in arc_list]
     model.add_constraint(model.sum(violated_constraints) >= 1)
 
-def create_graph(solution, num_vertices):
+def create_graph(solution):
     graph = nx.DiGraph()
-    
-    for i in range(num_vertices):
-        for j in range(num_vertices):
-            if i != j:
-                if solution.get_value(f"x_{i}_{j}") > 0.5:
-                    graph.add_edge(i, j, capacity=1)
+    for d_variable in solution.iter_variables():
+        d_name = d_variable.name
+        from_node = int(d_name.split("_")[1])
+        to_node = int(d_name.split("_")[2])
+        graph.add_edge(from_node, to_node, capacity=1)
 
     return graph
 
@@ -46,9 +45,9 @@ def solve_with_max_flow(costs_matrix, visualize=True, print_time=True):
 
     while subtours_present:
         subtours_present = False
-        for node in range(1, num_vertices):
-            graph = create_graph(solution, num_vertices)
-            min_cut_value, partition = nx.minimum_cut(graph, 0, node)
+        for to_node in range(1, num_vertices):
+            graph = create_graph(solution)
+            min_cut_value, partition = nx.minimum_cut(graph, 0, to_node)
             if min_cut_value < 1:
                 subtours_present = True
                 add_violated_constraints(model, x, partition)
