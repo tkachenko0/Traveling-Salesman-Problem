@@ -17,8 +17,8 @@ def create_graph(solution):
     return graph
 
 
-def solve_with_max_flow(costs_matrix, visualize=True, print_time=True):
-    print("Max Flow")
+def solve_with_max_flow_v1(costs_matrix, visualize=True, print_time=True):
+    print("Max Flow v1")
 
     num_vertices = len(costs_matrix)
 
@@ -47,6 +47,38 @@ def solve_with_max_flow(costs_matrix, visualize=True, print_time=True):
         utils.print_tours(solution, num_vertices, method_name="Max Flow")
 
     print("\tTotal Cost:   ", solution.get_objective_value())
+
+def solve_with_max_flow_v2(costs_matrix, visualize=True, print_time=True):
+    print("Max Flow v2")
+
+    num_vertices = len(costs_matrix)
+
+    model, x = create_assignment_problem_model(costs_matrix)
+
+    subtours_present = True
+
+    start_time = time.time()
+
+    solution = model.solve()
+
+    while subtours_present:
+        subtours_present = False
+        for to_node in range(1, num_vertices):
+            graph = create_graph(solution)
+            min_cut_value, (s_set, t_set) = nx.minimum_cut(graph, 0, to_node)
+            if min_cut_value < 1:
+                subtours_present = True
+                add_violated_constraints(model, x, s_set, t_set)
+                break
+        solution = model.solve()
+
+    if print_time:
+        print("\tTime:", time.time() - start_time)
+
+    if visualize:
+        utils.print_tours(solution, num_vertices, method_name="Max Flow")
+
+    print("\tTotal Cost:   ", solution.get_objective_value()) 
 
 
 def solve_with_cut_set(costs_matrix, visualize=True, print_time=True):
