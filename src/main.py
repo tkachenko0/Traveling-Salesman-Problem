@@ -5,7 +5,7 @@ from costs_matrices import generate_random_cost_matrix, generate_space_matrix, g
 if __name__ == '__main__':
     num_vertices = 12
 
-    costs_matrix = generate_random_cost_matrix(num_vertices)
+    costs_matrix = generate_random_cost_matrix(num_vertices) # or generate_space_matrix
 
     #solve_with_cut_set(costs_matrix, visualize=True, print_time=True)
 
