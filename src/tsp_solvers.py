@@ -48,13 +48,9 @@ def solve_with_max_flow(costs_matrix, visualize=True, print_time=True):
         subtours_present = False
         for node in range(1, num_vertices):
             graph = create_graph(solution, num_vertices)
-            max_flow_value = nx.maximum_flow_value(graph, 0, node)
-            #max_flow= nx.maximum_flow(graph, 0, node) # TODO: remove
-            #print(f"Max flow: {max_flow}") # TODO: remove
-            if max_flow_value < 1:
+            min_cut_value, partition = nx.minimum_cut(graph, 0, node)
+            if min_cut_value < 1:
                 subtours_present = True
-                _, partition = nx.minimum_cut(graph, 0, node)
-                #print(f"Partition: {partition}")
                 add_violated_constraints(model, x, partition)
         solution = model.solve()
 

@@ -16,4 +16,4 @@ if __name__ == '__main__':
     #solve_with_branch_and_bound(costs_matrix, bb_type=BranchAndBoundType.TOTAL, visualize=False, print_time=True)
     #solve_with_branch_and_bound(costs_matrix, bb_type=BranchAndBoundType.BINARY, visualize=False, print_time=True)
 
-    solve_with_max_flow(costs_matrix, visualize=True, print_time=True)
+    solve_with_max_flow(costs_matrix, visualize=False, print_time=True)
