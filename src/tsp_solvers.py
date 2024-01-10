@@ -2,8 +2,7 @@ import time
 from tsp_models import *
 import networkx as nx
 
-def add_violated_constraints(model, x, min_cut_partition):
-    (s_set, t_set) = min_cut_partition
+def add_violated_constraints(model, x, s_set, t_set):
     arc_list = [{'from': v, 'to': q} for v in s_set for q in t_set]
     violated_constraints = [x[(arc['from'], arc['to'])] for arc in arc_list]
     model.add_constraint(model.sum(violated_constraints) >= 1)
@@ -35,10 +34,10 @@ def solve_with_max_flow(costs_matrix, visualize=True, print_time=True):
         subtours_present = False
         for to_node in range(1, num_vertices):
             graph = create_graph(solution)
-            min_cut_value, partition = nx.minimum_cut(graph, 0, to_node)
+            min_cut_value, (s_set, t_set) = nx.minimum_cut(graph, 0, to_node)
             if min_cut_value < 1:
                 subtours_present = True
-                add_violated_constraints(model, x, partition)
+                add_violated_constraints(model, x, s_set, t_set)
         solution = model.solve()
 
     if print_time:
