@@ -81,7 +81,21 @@ def solve_with_max_flow_v2(costs_matrix, visualize=True, print_time=True):
     print("\tTotal Cost:   ", solution.get_objective_value()) 
 
 
+def solve_with_cut_set(costs_matrix, visualize=True, print_time=True):
+    print("Cut Set")
+    num_vertices = len(costs_matrix)
 
+    model = create_cut_set_model(costs_matrix)
+
+    start_time = time.time()
+    solution = model.solve()
+    if print_time:
+        print("\tTime:", time.time() - start_time)
+
+    if visualize:
+        utils.print_tours(solution, num_vertices, method_name="Cut Set")
+
+    print("\tTotal Cost:   ", solution.get_objective_value())
 
 
 def solve_with_subtour_elimination(costs_matrix, visualize=True, print_time=True):
