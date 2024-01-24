@@ -1,6 +1,7 @@
 import matplotlib.pyplot as plt
 import itertools
 import math
+from costs_matrices import planet_names
 
 NUM_PLANETS = 8
 

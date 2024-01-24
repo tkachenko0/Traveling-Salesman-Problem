@@ -79,6 +79,7 @@ def solve_with_max_flow_v2(costs_matrix, visualize=True, print_time=True):
         utils.print_tours(solution, num_vertices, method_name="Max Flow")
 
     print("\tTotal Cost:   ", solution.get_objective_value()) 
+    return solution.get_objective_value()
 
 
 def solve_with_cut_set(costs_matrix, visualize=True, print_time=True):
